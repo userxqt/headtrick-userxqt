@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Headtrick Hacker userxqt</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+  body {
+    margin: 0; padding: 0; overflow: hidden;
+    background: #000;
+    font-family: 'Share Tech Mono', monospace;
+    color: #00FF41;
+    user-select: none;
+  }
+  canvas#matrix {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 0;
+  }
+  .container {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #00FF41;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #00FF41;
+    width: 340px;
+    padding: 20px 25px;
+    z-index: 10;
+  }
+  h2 {
+    margin: 0 0 20px;
+    font-size: 22px;
+    text-align: center;
+    text-shadow: 0 0 4px #00FF41;
+    letter-spacing: 1.5px;
+    color: #33ff77;
+  }
+  .menu-item {
+    background: #002200;
+    border: 1.5px solid #00FF41;
+    border-radius: 8px;
+    padding: 12px 20px 12px 35px;
+    margin: 15px 0 6px;
+    cursor: pointer;
+    position: relative;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    user-select:none;
+  }
+  .menu-item:hover {
+    background: #004400;
+  }
+  .menu-item::before {
+    content: '▶';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00FF41;
+    font-weight: bold;
+    transition: transform 0.25s ease;
+  }
+  .menu-item.open::before {
+    transform: translateY(-50%) rotate(90deg);
+  }
+  .sub-options {
+    display: none;
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+  label.checkbox-label {
+    display: block;
+    font-size: 15px;
+    color: #00FF41;
+    cursor: pointer;
+    margin: 6px 0;
+  }
+  label.checkbox-label input[type=checkbox] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    accent-color: #00FF41;
+    cursor: pointer;
+  }
+  .slider-container {
+    margin-top: 10px;
+  }
+  .slider-label {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    background: #004400;
+    border-radius: 6px;
+    height: 8px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #00FF41;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #003300;
+  }
+  .command-prompt {
+    background: #001a00;
+    border: 1.5px solid #00FF41;
+    border-radius: 6px;
+    color: #00FF41;
+    height: 90px;
+    overflow-y: auto;
+    padding: 10px;
+    font-size: 13px;
+    margin-top: 15px;
+  }
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .open-app-btn {
+    flex: 1;
+    padding: 12px 0;
+    background: #00FF41;
+    border-radius: 10px;
+    color: #000;
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+    user-select:none;
+    box-shadow: 0 0 8px #00FF41;
+  }
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="container">
+  <h2>Headtrick Hacker userxqt</h2>
+
+  <div class="menu-item" onclick="toggleOptions(this, 'trick-options')"> Trick Funções</div>
+  <div class="sub-options" id="trick-options">
+    <label class="checkbox-label"><input type="checkbox" onchange="updatePrompt(this, 'Ativar auxílio de mira')"> Ativar auxílio de mira</label>
+    <label class="checkbox-label"><input type="checkbox" onchange="updatePrompt(this, 'Ativar no recoil')"> Ativar no recoil</label>
+  </div>
+
+  <div class="menu-item" onclick="toggleOptions(this, 'auxilio-options')"> Auxílio Funções</div>
+  <div class="sub-options" id="auxilio-options">
+    <label class="checkbox-label"><input type="checkbox" onchange="updatePrompt(this, 'Aimbot 75%')"> Aimbot 75%</label>
+    <label class="checkbox-label"><input type="checkbox" onchange="updatePrompt(this, 'aimfov')"> aimfov</label>
+  </div>
+
+  <div class="menu-item" onclick="toggleOptions(this, 'sensi-options')"> Regulador de Sensi</div>
+  <div class="sub-options" id="sensi-options">
+    <div class="slider-container">
+      <label class="slider-label">Mira suave: <span id="sliderValue">0%</span></label>
+      <input type="range" id="smoothSlider" min="0" max="100" value="0" oninput="updateSlider(this.value)">
+    </div>
+  </div>
+
+  <div class="command-prompt" id="commandPrompt"></div>
+
+  <div class="btn-group">
+    <div class="open-app-btn" onclick="openFreeFire()">Abrir Free Fire</div>
+    <div class="open-app-btn" onclick="openFreeFireMax()">Abrir Free Fire Max</div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const columns = Math.floor(canvas.width / 20);
+const drops = new Array(columns).fill(1);
+const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()[]{}<>\/|+=-_'.split('');
+
+function drawMatrix() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#00FF41';
+  ctx.font = '18px Share Tech Mono';
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters[Math.floor(Math.random() * letters.length)];
+    ctx.fillText(text, i * 20, drops[i] * 20);
+    if (drops[i] * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+function animateMatrix() {
+  drawMatrix();
+  setTimeout(animateMatrix, 55);
+}
+animateMatrix();
+
+function toggleOptions(el, id) {
+  const opt = document.getElementById(id);
+  const isOpen = opt.style.display === 'block';
+  opt.style.display = isOpen ? 'none' : 'block';
+  el.classList.toggle('open', !isOpen);
+}
+
+function updatePrompt(checkbox, mod) {
+  const prompt = document.getElementById('commandPrompt');
+  const msg = mod + (checkbox.checked ? ' Ativado' : ' Desativado');
+  const color = checkbox.checked ? '#33ff77' : '#ff0044';
+  prompt.innerHTML += '<span style="color:' + color + ';">' + msg + '</span><br>';
+  prompt.scrollTop = prompt.scrollHeight;
+}
+
+let lastSliderFeedback = -1;
+function updateSlider(val) {
+  document.getElementById('sliderValue').textContent = val + '%';
+  const prompt = document.getElementById('commandPrompt');
+  const range = Math.floor(val / 10) * 10;
+
+  if (range !== lastSliderFeedback) {
+    lastSliderFeedback = range;
+    let feedback = '';
+    switch(range) {
+      case 0: feedback = 'Mira suave: totalmente desregulada!'; break;
+      case 10: feedback = 'Mira suave: sensi desregulada!'; break;
+      case 20: feedback = 'Mira suave: sensi normal'; break;
+      case 30: feedback = 'Mira suave: sensi padrão'; break;
+      case 40: feedback = 'Mira suave: começando a melhorar'; break;
+      case 50: feedback = 'Mira suave: aceitável'; break;
+      case 60: feedback = 'Mira suave: boa'; break;
+      case 70: feedback = 'Mira suave: ótima'; break;
+      case 80: feedback = 'Mira suave: sensi avançada'; break;
+      case 90: feedback = 'Mira suave: quase nível hacker'; break;
+      case 100: feedback = 'Mira suave: SENSI NÍVEL HACKER!'; break;
+    }
+    prompt.innerHTML += '<span style="color:#33ff77;">' + feedback + '</span><br>';
+    prompt.scrollTop = prompt.scrollHeight;
+  }
+}
+
+function openFreeFire() {
+  alert('Abrindo Free Fire...');
+  // Aqui só placeholder, não abre app de verdade em navegador
+}
+function openFreeFireMax() {
+  alert('Abrindo Free Fire Max...');
+  // Aqui só placeholder, não abre app de verdade em navegador
+}
+</script>
+</body>
+</html>
